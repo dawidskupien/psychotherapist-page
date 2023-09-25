@@ -1,0 +1,40 @@
+---
+  import { getCards } from "../lib/api.ts";
+  import { Image } from "astro:assets";
+  import { imageToUrl } from "../lib/imageToUrl.ts";
+  import { Button } from "./ui/button.tsx";
+  import Container from "./ui/container.astro";
+  interface card {
+    title: string;
+    description: string;
+    icon: string;
+    price: string[];
+  }
+  const cards: card[] = await getCards();
+---
+
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+
+<Container id="offer">
+  <div class="mt-14 lg:mt-[12rem] flex flex-col max-w-screen-xl">
+    <div  class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {cards.map(card => (
+        <a class="bg-white ] rounded-xl p-8 border-b-2 border-b-transparent transition hover:border-[#73CEA7]"
+            style={{boxShadow: "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;"}}>
+            <Image src={imageToUrl(card.icon).url()} alt="" height={30} width={30} />
+            <h2 class="mt-4 text-xl font-bold">{card.title}</h2>
+            <p class="mt-4 text-sm/[1.6] font-inter text-gray-600">{card.description}</p>
+            <p class="flex flex-col mt-4">
+            {card.price.map(price => <span class="font-inter text-base/[1.6]">{price}</span>)}
+          </p>
+        </a>
+      ))}
+    </div>
+    <a class="mx-auto mt-8" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/testowo?hide_landing_page_details=1&hide_gdpr_banner=1&primary_color=000000'});return false;" >
+      <Button className="bg-[#365466] ">Umów wizytę</Button> 
+    </a>
+  </div>
+</Container>
+
+

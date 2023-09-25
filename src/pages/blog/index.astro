@@ -1,0 +1,44 @@
+---
+import PageLayout from "../../layouts/pageLayout.astro";
+import { useSanityClient } from 'astro-sanity';
+import { imageToUrl } from "../../lib/imageToUrl";
+import { Image } from "astro:assets";
+import Container from "../../components/ui/container.astro";
+const posts = await useSanityClient().fetch(`*[_type == "post"]`);
+import type Post from './post'
+---
+
+<PageLayout>
+    <Container>
+        <div class="text-center border-b-2 border-gray-300 w-2/3 mx-auto mt-[8rem] pb-[2rem]">
+            <h1 class="text-4xl font-bold text-gray-900">Blog</h1>
+            <p class="mt-4 text-gray-500">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptates.</p>
+        </div>
+        <div class=" py-[2rem]">
+            {posts && <div class="grid gap-10 grid-cols-3">
+                    {
+                    posts.map((post: Post) => (
+                                <article class="overflow-hidden rounded-lg shadow transition hover:shadow-lg ">
+                                    <Image alt="" src={imageToUrl(post.image).url()} height={500} width={200} class="h-56 w-full object-cover object-top "/>
+                                    <div class="bg-white p-4 sm:p-6">
+                                        <time datetime="2022-10-10" class="block text-xs text-gray-500">
+                                            {post.date}
+                                        </time>
+                                        <a href={`blog/${post.slug.current}`}>
+                                            <h3 class="mt-0.5 text-lg text-gray-900">
+                                            {post.title}
+                                            </h3>
+                                        </a>
+
+                                        <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+                                            {post.excerpt}
+                                        </p>
+                                    </div>
+                                </article>
+                    ))
+                    }
+            </div>
+            }
+        </div>
+    </Container>
+</PageLayout>

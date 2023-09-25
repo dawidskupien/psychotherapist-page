@@ -1,0 +1,33 @@
+---
+import Container from "./ui/container.astro"
+import { Image } from 'astro:assets';
+import { Button } from "./ui/button.tsx"
+import { getHeroSection } from "../lib/api.ts";
+import { imageToUrl } from "../lib/imageToUrl";
+const heroSection = await getHeroSection();
+const hero = heroSection[0]
+---
+
+
+<main>
+    <Container id="home">
+      <div class="flex flex-col-reverse pt-[6rem]  justify-between items-center lg:pt-[9rem] md:flex-row md:items-end">
+        <div class="w-[95%] max-w-[30rem] lg:max-w-[35rem]">
+          <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">{hero.title}</h1>
+          <div class="h-[2px] w-8 bg-[#73CEA7] mt-6"></div>
+          <p class="leading-7 [&:not(:first-child)]:mt-6 max-w-[50ch]">
+            {hero.description}
+          </p>
+          <div class="flex mt-10 lg:mt-20 gap-5">
+            <a href="#offer">
+              <Button size="lg" className="bg-[#365466]">Zobacz ofertę</Button>
+            </a>
+            <a href="#contact">
+              <Button variant="secondary" size="lg">Skontaktuj się</Button>
+            </a>
+          </div>
+        </div>
+        <Image class="-scale-x-100 w-[95%] object-contain mb-5 max-w-[30rem] lg:max-w-[35rem] md:scale-x-100 lg:mb-0 lg:translate-y-5" src={imageToUrl(hero.image).url()} alt={hero.alt} height={476} width={560} />
+      </div>
+    </Container>
+</main>

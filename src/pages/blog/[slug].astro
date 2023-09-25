@@ -1,0 +1,37 @@
+---
+import { useSanityClient } from 'astro-sanity';
+import { PortableText } from 'astro-portabletext';
+import { imageToUrl } from '../../lib/imageToUrl';
+import PageLayout from '../../layouts/pageLayout.astro';
+import type Post from './post'
+import Container from '../../components/ui/container.astro';
+import { Image } from 'astro:assets';
+export async function getStaticPaths() {
+  const posts = await useSanityClient().fetch(`*[_type == "post"]`);
+
+  return posts.map((post: Post) => {
+    return {
+      params: {
+        slug: post.slug?.current || '',
+      },
+      props: { ...post },
+    };
+  });
+}
+
+const { title, content, image, date } = Astro.props;
+
+---
+
+<PageLayout>
+  <Container>
+    <div class=" max-w-screen-md  mx-auto flex flex-col  my-[10rem]">
+      <div class="flex justify-between items-center">
+        <h1 class="scroll-m-20 text-3xl leading-[2.5rem font-bold max-w-[30ch] tracking-tight ">{title}</h1>
+        <p class="text-gray-500">{date}</p>
+      </div>
+      <!-- <Image src={imageToUrl(image).url()} alt="" height={300} width={500} /> -->
+        <PortableText class="font-inter leading-7  mt-12" value={content} />
+    </div>
+  </Container>
+</PageLayout>

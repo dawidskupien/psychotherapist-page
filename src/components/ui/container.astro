@@ -1,0 +1,7 @@
+---
+const { id } = Astro.props;
+---
+
+<div id={id} class="mx-auto" style={{width: "clamp(1rem, 95%, 1280px)"}}>
+    <slot />
+</div>

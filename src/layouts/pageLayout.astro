@@ -1,0 +1,33 @@
+---
+import "../styles/globals.css";
+import Header from "../components/Header";
+import Footer from '../components/Footer.astro'
+---
+
+<html class="scroll-smooth scroll  scroll-pt-[8rem]" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+		<div class="fixed w-full ">
+			<div class="flex mx-auto h-screen max-w-screen-xl justify-between">
+				<span class="border-gray-200 opacity-50  border-[1px] border-dashed h-full scale-y-[500%]"></span>
+				<span class="border-gray-200 opacity-50 border-[1px] border-dashed h-full scale-y-[500%]"></span>
+				<span class="border-gray-200 opacity-50  border-[1px] border-dashed h-full scale-y-[500%]"></span>
+				<span class="border-gray-200 opacity-50 border-[1px] border-dashed h-full scale-y-[500%]"></span>
+				<span class="border-gray-200 opacity-50  border-[1px] border-dashed h-full scale-y-[500%]"></span>
+				<span class="border-gray-200 opacity-50 border-[1px] border-dashed h-full scale-y-[500%]"></span>
+			</div>
+		</div>
+		
+		<div class="absolute z-10 w-full ">
+			<Header client:only />
+			<slot />
+			<Footer />
+		</div>
+	</body>
+</html>

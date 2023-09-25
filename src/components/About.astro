@@ -1,0 +1,28 @@
+---
+import Container from "./ui/container.astro";
+import AboutTab from "./AboutTab.tsx";
+import { Image } from "astro:assets";
+import { getAboutSection } from "../lib/api.ts";
+import { PortableText } from "astro-portabletext";
+import { imageToUrl } from "../lib/imageToUrl";
+import ReadMore from "./ReadMore.tsx";
+const aboutSection = await getAboutSection();
+const about = aboutSection[0];
+---
+
+<Container id="about">
+        <div class="flex flex-col mt-12 lg:mt-[6rem] lg:flex-row">
+            <Image src={imageToUrl(about.image).url()} height={768} width={512} alt="terapeuta" class="rounded-lg self-center lg:self-start w-full md:w-[60%] lg:w-[40%] object-cover" />
+            <div class="pl-0 pt-7 lg:pt-0 md:pl-10">
+                <h2 class="scroll-m-20 text-3xl font-semibold mb-8 mt-2 lg:text-4xl">{about.title}</h2>
+                <PortableText class="font-inter  leading-7 [&:not(:first-child)]:mt-6" value={about.description} />
+                <ReadMore client:load />
+                <AboutTab client:load >
+                    <PortableText slot="education" value={about.education}/>
+                    <PortableText slot="experience" value={about.experience}/>
+                    <PortableText slot="courses" value={about.courses}/>
+                    <PortableText slot="awards" value={about.awards}/>
+                </AboutTab>
+            </div>
+        </div>
+</Container>

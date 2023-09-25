@@ -1,0 +1,13 @@
+--- 
+import Questions from "./Questions.tsx"
+import { getFaqSection } from "../lib/api.ts";
+const faqSection = await getFaqSection();
+const faq = faqSection[0];
+---
+
+<div class=" my-10">
+    <div class="flex flex-col items-center justify-center my-[7rem]">
+        <h2 class="text-3xl text-center font-bold sm:text-3xl mx-auto">{faq.title}</h2>
+        <Questions qanda={faq.qanda} client:load />
+    </div>
+</div>
